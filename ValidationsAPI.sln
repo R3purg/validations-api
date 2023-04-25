@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.33424.131
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ValidationsAPI.Application", "ValidationsAPI.Application\ValidationsAPI.Application.csproj", "{7AA876BA-E3BE-4DB2-AAA8-C217F0188571}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ValidationsAPI.Models", "ValidationsAPI.Models\ValidationsAPI.Models.csproj", "{4EEAA8E3-E4ED-4D8C-BD0B-B8DE2800DFBE}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ValidationsAPI.Repository", "ValidationsAPI.Repository\ValidationsAPI.Repository.csproj", "{6414A521-8532-4F46-8880-FB37E5878083}"
@@ -13,16 +11,14 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ValidationsAPI.UnitTests", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ValidationsAPI.Host", "ValidationsAPI.Host\ValidationsAPI.Host.csproj", "{96D9016A-CAF4-4215-A1EC-37A004850D03}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ValidationsAPI.Services", "ValidationsAPI.Services\ValidationsAPI.Services.csproj", "{3A8F2024-8EE9-42D2-86FD-5F9E119704D3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{7AA876BA-E3BE-4DB2-AAA8-C217F0188571}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7AA876BA-E3BE-4DB2-AAA8-C217F0188571}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7AA876BA-E3BE-4DB2-AAA8-C217F0188571}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7AA876BA-E3BE-4DB2-AAA8-C217F0188571}.Release|Any CPU.Build.0 = Release|Any CPU
 		{4EEAA8E3-E4ED-4D8C-BD0B-B8DE2800DFBE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{4EEAA8E3-E4ED-4D8C-BD0B-B8DE2800DFBE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4EEAA8E3-E4ED-4D8C-BD0B-B8DE2800DFBE}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -39,6 +35,10 @@ Global
 		{96D9016A-CAF4-4215-A1EC-37A004850D03}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{96D9016A-CAF4-4215-A1EC-37A004850D03}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{96D9016A-CAF4-4215-A1EC-37A004850D03}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3A8F2024-8EE9-42D2-86FD-5F9E119704D3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3A8F2024-8EE9-42D2-86FD-5F9E119704D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3A8F2024-8EE9-42D2-86FD-5F9E119704D3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3A8F2024-8EE9-42D2-86FD-5F9E119704D3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
