@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics;
 using Microsoft.AspNetCore.Http;
-using ValidationsAPI.Services.Utils;
-using ValidationsAPI.Services.Constants;
+using ValidationsAPI.Models.Utils;
+using ValidationsAPI.Models.Constants;
 using ValidationsAPI.Models.Validation.File;
 
 namespace ValidationsAPI.Services.Validation
@@ -16,40 +16,36 @@ namespace ValidationsAPI.Services.Validation
 			{
 				using (var streamReader = new StreamReader(file.OpenReadStream()))
 				{
-					int lineNumber = 1;
-					var stopwatch = new Stopwatch();
+					int num = 1;
 
 					while (!streamReader.EndOfStream)
 					{
 						var line = streamReader.ReadLine()?.Trim();
 
-						if (line == null) continue;
+						if (string.IsNullOrEmpty(line)) continue;
 
-						stopwatch.Restart();
-						stopwatch.Start();
+						var stopwatch = Stopwatch.StartNew();
 
 						var values = line.Split(' ');
+						var result = new InvalidLineDto();
 
-						bool isNameValid = !RegexHelper.IsAccountNameValid(values[0].Trim());
-						bool isNumberValid = !RegexHelper.IsAccountNumberValid(values[1].Trim());
+						if (!RegexHelper.IsAccountNameValid(values[0].Trim()))
+							result.InvalidLine += ", account name";
 
-						if (values.Length != 2 || (!isNameValid && !isNumberValid))
-						{
-							response.InvalidLines.Add($"Account name, account number - not valid for {lineNumber} line '{line}'");
-						}
-						else if (!isNameValid)
-						{
-							response.InvalidLines.Add($"Account name - not valid for {lineNumber} line '{line}'");
-						}
-						else if (!isNumberValid)
-						{
-							response.InvalidLines.Add($"Account number - not valid for {lineNumber} line '{line}'");
-						}
+						if (!RegexHelper.IsAccountNumberValid(values[1].Trim()))
+							result.InvalidLine += ", account number";
 
 						stopwatch.Stop();
-						var elapsedMilliseconds = stopwatch.ElapsedMilliseconds;
 
-						lineNumber++;
+						if (!string.IsNullOrEmpty(result.InvalidLine))
+						{
+							result.InvalidLine = FormatHelper.Capitalize(result.InvalidLine.TrimStart(',').TrimStart()) + $" - not valid for {num} line '{line}'";
+							result.ElapsedMilliseconds = stopwatch.ElapsedMilliseconds;
+
+							response.InvalidLines.Add(result);
+						}
+
+						num++;
 					}
 				}
 			}
@@ -58,6 +54,8 @@ namespace ValidationsAPI.Services.Validation
 				//Log.Error($"Request from {nameof(ValidationService)}.{nameof(ValidationService.ValidateFile)}\nError: {ex.Message}");
 				throw new Exception(Consts.ErrorMessage.StreamException, ex);
 			}
+
+			response.FileValid = !(response.InvalidLines?.Count > 0);
 
 			return response;
 		}
@@ -70,38 +68,36 @@ namespace ValidationsAPI.Services.Validation
 			{
 				using (var streamReader = new StreamReader(file.OpenReadStream()))
 				{
-					var lineNumber = 1;
+					var num = 1;
 					var lines = await streamReader.ReadToEndAsync();
 					var lineArray = lines.Split(Environment.NewLine);
 
 					await Task.WhenAll(lineArray.Select(async (line) =>
 					{
-						if (line == null) return;
+						if (string.IsNullOrEmpty(line)) return;
 
-						var stopwatch = new Stopwatch();
+						var stopwatch = Stopwatch.StartNew();
 
 						var values = line.Split(' ');
+						var result = new InvalidLineDto();
 
-						bool isNameValid = !RegexHelper.IsAccountNameValid(values[0].Trim());
-						bool isNumberValid = !RegexHelper.IsAccountNumberValid(values[1].Trim());
+						if (!RegexHelper.IsAccountNameValid(values[0].Trim()))
+							result.InvalidLine += ", account name";
 
-						if (values.Length != 2 || (!isNameValid && !isNumberValid))
-						{
-							response.InvalidLines.Add($"Account name, account number - not valid for {lineNumber} line '{line}'");
-						}
-						else if (!isNameValid)
-						{
-							response.InvalidLines.Add($"Account name - not valid for {lineNumber} line '{line}'");
-						}
-						else if (!isNumberValid)
-						{
-							response.InvalidLines.Add($"Account number - not valid for {lineNumber} line '{line}'");
-						}
+						if (!RegexHelper.IsAccountNumberValid(values[1].Trim()))
+							result.InvalidLine += ", account number";
 
 						stopwatch.Stop();
-						var elapsedMilliseconds = stopwatch.ElapsedMilliseconds;
 
-						Interlocked.Increment(ref lineNumber);
+						if (!string.IsNullOrEmpty(result.InvalidLine))
+						{
+							result.InvalidLine = FormatHelper.Capitalize(result.InvalidLine.TrimStart(',').TrimStart()) + $" - not valid for {num} line '{line}'";
+							result.ElapsedMilliseconds = stopwatch.ElapsedMilliseconds;
+
+							response.InvalidLines.Add(result);
+						}
+
+						Interlocked.Increment(ref num);
 					}));
 				}
 			}
@@ -110,6 +106,8 @@ namespace ValidationsAPI.Services.Validation
 				//Log.Error($"Request from {nameof(ValidationService)}.{nameof(ValidationService.ValidateFile)}\nError: {ex.Message}");
 				throw new Exception(Consts.ErrorMessage.StreamException, ex);
 			}
+
+			response.FileValid = (response.InvalidLines.Count < 1);
 
 			return response;
 		}
