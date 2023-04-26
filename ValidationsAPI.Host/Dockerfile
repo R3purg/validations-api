@@ -7,7 +7,11 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 WORKDIR /src
+COPY ["nuget.config", "."]
 COPY ["ValidationsAPI.Host/ValidationsAPI.Host.csproj", "ValidationsAPI.Host/"]
+COPY ["ValidationsAPI.Models/ValidationsAPI.Models.csproj", "ValidationsAPI.Models/"]
+COPY ["ValidationsAPI.Services/ValidationsAPI.Services.csproj", "ValidationsAPI.Services/"]
+COPY ["ValidationsAPI.UnitTests/ValidationsAPI.UnitTests.csproj", "ValidationsAPI.UnitTests/"]
 RUN dotnet restore "ValidationsAPI.Host/ValidationsAPI.Host.csproj"
 COPY . .
 WORKDIR "/src/ValidationsAPI.Host"
