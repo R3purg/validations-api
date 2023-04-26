@@ -58,7 +58,7 @@ namespace ValidationsAPI.Services.Validation
 				throw new Exception(Consts.ErrorMessage.StreamException, ex);
 			}
 
-			response.FileValid = !(response.InvalidLines?.Count > 0);
+			response.FileValid = !(response.InvalidLines?.Count > 0 || file?.Length <= 0);
 
 			return Task.FromResult(response);
 		}
@@ -121,7 +121,7 @@ namespace ValidationsAPI.Services.Validation
 		//		throw new Exception(Consts.ErrorMessage.StreamException, ex);
 		//	}
 
-		//	response.FileValid = (response.InvalidLines.Count < 1);
+		//	response.FileValid = !(response.InvalidLines?.Count > 0 || file?.Length <= 0);
 
 		//	return response;
 		//}

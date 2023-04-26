@@ -15,7 +15,7 @@ namespace ValidationsAPI.Models.Attributes.File
 
 		protected override ValidationResult? IsValid(object? value, ValidationContext validationContext)
 		{
-			var file = value as IFormFile;
+			IFormFile file = value as IFormFile;
 
 			if (file != null)
 			{

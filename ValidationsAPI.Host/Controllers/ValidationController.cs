@@ -27,11 +27,11 @@ namespace ValidationsAPI.Host.Controllers
 
 			try
 			{
-				if (ModelState.IsValid)
+				if (model?.File != null && ModelState.IsValid)
 				{
-					var file = model.File;
+					IFormFile file = model.File;
 
-					if (file == null || file.Length == 0) return BadRequest(response);
+					if (file.Length <= 0) return BadRequest(response);
 
 					response.Result = await _validationService.ValidateFile(file);
 				}
@@ -46,6 +46,7 @@ namespace ValidationsAPI.Host.Controllers
 			catch (Exception ex)
 			{
 				response.ErrorMessage = ex.Message;
+				response.InnerErrorMessage = ex.InnerException?.Message;
 			}
 
 			return BadRequest(response);
