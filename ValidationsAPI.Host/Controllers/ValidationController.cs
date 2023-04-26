@@ -34,14 +34,17 @@ namespace ValidationsAPI.Host.Controllers
 					if (file == null || file.Length == 0) return BadRequest(response);
 
 					response.Result = await _validationService.ValidateFile(file);
-					//response.Result = await _validationService.ValidateFileAsync(file);
 				}
 
-				if (response.Result != null) return Ok(response.Result);
+				if (response.Result != null)
+				{
+					response.IsSuccess = true;
+					
+					return Ok(response.Result);
+				}
 			}
 			catch (Exception ex)
 			{
-				response.IsSuccess = false;
 				response.ErrorMessage = ex.Message;
 			}
 

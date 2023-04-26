@@ -23,7 +23,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ValidationsAPI.Repository\ValidationsAPI.Repository.csproj" />
     <ProjectReference Include="..\ValidationsAPI.Services\ValidationsAPI.Services.csproj" />
   </ItemGroup>
 

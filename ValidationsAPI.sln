@@ -5,13 +5,11 @@ VisualStudioVersion = 17.5.33424.131
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ValidationsAPI.Models", "ValidationsAPI.Models\ValidationsAPI.Models.csproj", "{4EEAA8E3-E4ED-4D8C-BD0B-B8DE2800DFBE}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ValidationsAPI.Repository", "ValidationsAPI.Repository\ValidationsAPI.Repository.csproj", "{6414A521-8532-4F46-8880-FB37E5878083}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ValidationsAPI.UnitTests", "ValidationsAPI.UnitTests\ValidationsAPI.UnitTests.csproj", "{76A5535F-F3ED-40B0-93F1-F02CE3502BCC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ValidationsAPI.Host", "ValidationsAPI.Host\ValidationsAPI.Host.csproj", "{96D9016A-CAF4-4215-A1EC-37A004850D03}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ValidationsAPI.Host", "ValidationsAPI.Host\ValidationsAPI.Host.csproj", "{96D9016A-CAF4-4215-A1EC-37A004850D03}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ValidationsAPI.Services", "ValidationsAPI.Services\ValidationsAPI.Services.csproj", "{3A8F2024-8EE9-42D2-86FD-5F9E119704D3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ValidationsAPI.Services", "ValidationsAPI.Services\ValidationsAPI.Services.csproj", "{3A8F2024-8EE9-42D2-86FD-5F9E119704D3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,10 +21,6 @@ Global
 		{4EEAA8E3-E4ED-4D8C-BD0B-B8DE2800DFBE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4EEAA8E3-E4ED-4D8C-BD0B-B8DE2800DFBE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4EEAA8E3-E4ED-4D8C-BD0B-B8DE2800DFBE}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6414A521-8532-4F46-8880-FB37E5878083}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6414A521-8532-4F46-8880-FB37E5878083}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6414A521-8532-4F46-8880-FB37E5878083}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6414A521-8532-4F46-8880-FB37E5878083}.Release|Any CPU.Build.0 = Release|Any CPU
 		{76A5535F-F3ED-40B0-93F1-F02CE3502BCC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{76A5535F-F3ED-40B0-93F1-F02CE3502BCC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{76A5535F-F3ED-40B0-93F1-F02CE3502BCC}.Release|Any CPU.ActiveCfg = Release|Any CPU

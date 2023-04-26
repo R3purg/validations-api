@@ -1,75 +1,64 @@
-//using AutoMapper;
+using Serilog;
 using ValidationsAPI.Services;
 using Microsoft.OpenApi.Models;
-//using ValidationsAPI.Repository;
-//using ValidationsAPI.Repository.IoC;
-//using ValidationsAPI.Models.Configuration;
-//using Microsoft.Extensions.DependencyInjection;
+using ValidationsAPI.Services.Extensions;
 
-var builder = WebApplication.CreateBuilder(args);
-
-//string assembly = "ValidationsAPI.Host";
-//string? connectionString = builder.Configuration.GetConnectionString("MainDb");
-
-// AutoMapper configuration
-//IMapper mapper = MappingConfig.RegisterMaps().CreateMapper();
-//builder.Services.AddSingleton(mapper);
-//builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-
-// Add services to the container.
-//builder.Services.ConfigureDb(connectionString, assembly);
-builder.Services.ConfigureService();
-//builder.Services.AddRepositoryStores(builder.Configuration);
-//builder.Services.ConfigureSerilog(builder.Configuration);
-//builder.Services.AddInMemoryCacheOutput();
-builder.Services.AddControllers().AddNewtonsoftJson();
-builder.Services.AddHttpContextAccessor();
-
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(c =>
+try
 {
-	c.SwaggerDoc("v1", new OpenApiInfo { Title = "ValidationsAPI.Host", Version = "v1" });
-});
+	var builder = WebApplication.CreateBuilder(args);
 
-//var urlSection = builder.Configuration.GetSection("URLS");
-//builder.Services.Configure<URLS>(urlSection);
-//URLS? URLs = urlSection.Get<URLS>();
+	// Serilog service
+	builder.Host.UseSerilog();
+	//builder.Host.UseSerilog((context, configuration) => configuration.ReadFrom.Configuration(context.Configuration));
 
-// Cache
-//builder.Services.AddStackExchangeRedisCache(options =>
-//{
-//	options.Configuration = URLs?.Redis?.URL + "," + URLs?.Redis?.DatabaseID;
-//});
+	// Add services to the container
+	builder.Services.ConfigureService();
+	builder.Services.ConfigureSerilog(builder.Configuration);
+	builder.Services.AddControllers().AddNewtonsoftJson();
+	builder.Services.AddHttpContextAccessor();
+	
+	builder.Services.AddEndpointsApiExplorer();
+	builder.Services.AddSwaggerGen(c =>
+	{
+		c.SwaggerDoc("v1", new OpenApiInfo { Title = "ValidationsAPI.Host", Version = "v1" });
+	});
+	
+	Log.Information("Building ValidationsAPI service host...");
+	var app = builder.Build();
 
-// Security
-//builder.Services.AddCorsPolicies(builder.Configuration);
-//builder.Services.PrepareAuth();
+	// Configure the HTTP request pipeline.
+	if (app.Environment.IsDevelopment())
+	{
+		app.UseSwagger();
+		app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "ValidationsAPI.Host v1"));
+	}
 
-var app = builder.Build();
+	app.UseHttpsRedirection();
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-	app.UseSwagger();
-	app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "DataQueryAPI.Host v1"));
+	app.UseRouting();
+	app.UseCors();
+
+	app.UseAuthentication();
+	app.UseAuthorization();
+
+	app.MapControllers();
+
+	app.UseSerilogRequestLogging();
+
+	app.MapGet("/", async context =>
+	{
+		await context.Response.WriteAsync(app.Environment.ApplicationName + System.Environment.NewLine +
+			"Environment:" + app.Environment.EnvironmentName);
+	});
+
+	Log.Information("Starting ValidationsAPI service host...");
+	app.Run();
 }
-
-app.UseHttpsRedirection();
-
-app.UseRouting();
-app.UseCors();
-
-app.UseAuthentication();
-app.UseAuthorization();
-
-app.MapControllers();
-//.RequireCors(Consts.CorsPolicies.Foxus);
-
-app.MapGet("/", async context =>
+catch (Exception ex)
 {
-	await context.Response.WriteAsync(app.Environment.ApplicationName + System.Environment.NewLine +
-		"Environment:" + app.Environment.EnvironmentName);
-});
-
-app.Run();
+	Log.Fatal("ValidationsAPI service host terminated unexpectedly:\r\n{0}\r\n{1}", ex.Message, ex);
+}
+finally
+{
+	Log.CloseAndFlush();
+}

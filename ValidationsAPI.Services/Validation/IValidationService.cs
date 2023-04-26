@@ -6,6 +6,5 @@ namespace ValidationsAPI.Services.Validation
 	public interface IValidationService
 	{
 		Task<FileValidationDto> ValidateFile(IFormFile file);
-		Task<FileValidationDto> ValidateFileAsync(IFormFile file);
 	}
 }

@@ -8,9 +8,9 @@ namespace ValidationsAPI.Models.Validation.File
 	public class FileDto
 	{
 		[JsonProperty("file")]
-		[MaxSize(1 * 1024 * 1024)]
+		[MaxSize(10 * 1024 * 1024)]
 		[DataType(DataType.Upload)]
-		[AllowedExtensions(new string[] { ".csv", ".txt" })]
+		[AllowedExtensions(new string[] { ".txt" })]
 		public IFormFile? File { get; set; }
 	}
 }
