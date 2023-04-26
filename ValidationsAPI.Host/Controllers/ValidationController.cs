@@ -4,7 +4,6 @@ using ValidationsAPI.Models.Validation.File;
 
 namespace ValidationsAPI.Host.Controllers
 {
-	//[Authorize]
 	public class ValidationController : ApiBaseController
 	{
 		private readonly IValidationService _validationService;
@@ -22,15 +21,21 @@ namespace ValidationsAPI.Host.Controllers
 		[HttpPost]
 		[ProducesResponseType(StatusCodes.Status200OK)]
 		[ProducesResponseType(StatusCodes.Status400BadRequest)]
-		public async Task<IActionResult> ValidateFile(IFormFile file)
+		public async Task<IActionResult> ValidateFile([FromForm] FileDto model)
 		{
 			var response = CreateResponse<FileValidationDto>();
 
 			try
 			{
-				response.Result = await _validationService.ValidateFile(file);
-				
-				response.Result = await _validationService.ValidateFileAsync(file);
+				if (ModelState.IsValid)
+				{
+					var file = model.File;
+
+					if (file == null || file.Length == 0) return BadRequest(response);
+
+					response.Result = await _validationService.ValidateFile(file);
+					//response.Result = await _validationService.ValidateFileAsync(file);
+				}
 
 				if (response.Result != null) return Ok(response.Result);
 			}

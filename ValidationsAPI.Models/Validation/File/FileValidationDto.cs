@@ -2,7 +2,7 @@
 {
 	public class FileValidationDto
 	{
-		public bool FileValid { get; set; } = true;
-		public IList<string> InvalidLines { get; set; } = new List<string>();
+		public bool FileValid { get; set; } = false;
+		public IList<InvalidLineDto> InvalidLines { get; set; } = new List<InvalidLineDto>();
 	}
 }
